@@ -1,0 +1,22 @@
+{
+  "name": "knights-travails",
+  "version": "1.0.0",
+  "description": "Project on The Odin Project's Curriculum to simulate knight moves on a standard 8 by 8 chess board, using JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/climaxmba/knights-travails.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/climaxmba/knights-travails/issues"
+  },
+  "homepage": "https://github.com/climaxmba/knights-travails#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
