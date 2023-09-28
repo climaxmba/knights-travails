@@ -21,31 +21,33 @@ class ChessBoard {
     this.vertices[value] = new Vertex(value);
   }
 
+  find(arr) {
+    ;
+  }
+
   #initBoard(length) {
     // Add verticies
     for (let i = 0; i < length; i++) {
       for (let j = 0; j < length; j++) {
-        this.addVertex(`${i}, ${j}`);
+        this.addVertex(`${i},${j}`);
       }
     }
 
     // Add edges
     for (let i = 0; i < length; i++) {
       for (let j = 0; j < length; j++) {
-        this.vertices[`${i}, ${j}`].addAdjVertex(
-          this.vertices[`${i + 2}, ${j + 1}`],
-          this.vertices[`${i + 2}, ${j - 1}`],
-          this.vertices[`${i - 2}, ${j + 1}`],
-          this.vertices[`${i - 2}, ${j - 1}`],
-          this.vertices[`${i + 1}, ${j + 2}`],
-          this.vertices[`${i + 1}, ${j - 2}`],
-          this.vertices[`${i - 1}, ${j + 2}`],
-          this.vertices[`${i - 1}, ${j - 2}`]
+        this.vertices[`${i},${j}`].addAdjVertex(
+          this.vertices[`${i + 2},${j + 1}`],
+          this.vertices[`${i + 2},${j - 1}`],
+          this.vertices[`${i - 2},${j + 1}`],
+          this.vertices[`${i - 2},${j - 1}`],
+          this.vertices[`${i + 1},${j + 2}`],
+          this.vertices[`${i + 1},${j - 2}`],
+          this.vertices[`${i - 1},${j + 2}`],
+          this.vertices[`${i - 1},${j - 2}`]
         );
       }
     }
   }
 }
 
-const chessBoard = new ChessBoard();
-console.log(chessBoard);
