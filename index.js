@@ -11,28 +11,14 @@ class Vertex {
   }
 }
 
-class Graph {
-  constructor() {
+class ChessBoard {
+  constructor(length = 8) {
     this.vertices = {};
+    this.#initBoard(length);
   }
 
   addVertex(value) {
     this.vertices[value] = new Vertex(value);
-  }
-
-  addEdge(source, destination) {
-    this.vertices[source].adjVertices.push(this.vertices[destination]);
-  }
-
-  getAdj(vertex) {
-    return this.vertices[vertex].adjVertices;
-  }
-}
-
-class ChessBoard extends Graph {
-  constructor(length = 8) {
-    super();
-    this.#initBoard(length);
   }
 
   #initBoard(length) {
