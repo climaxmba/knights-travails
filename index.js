@@ -22,7 +22,7 @@ class ChessBoard {
   }
 
   find(arr) {
-    ;
+    return this.vertices[arr.toString()];
   }
 
   #initBoard(length) {
@@ -51,3 +51,7 @@ class ChessBoard {
   }
 }
 
+(function knightMoves(from = [0, 0], to = [7, 7]) {
+  const chessBoard = new ChessBoard();
+  console.log(chessBoard.find([3, 3]));
+})()
