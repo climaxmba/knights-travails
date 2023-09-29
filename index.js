@@ -5,9 +5,9 @@ class Vertex {
   }
 
   addAdjVertex(...vertices) {
-    vertices.forEach(vertex => {
+    vertices.forEach((vertex) => {
       if (vertex) this.adjVertices.push(vertex);
-    })
+    });
   }
 }
 
@@ -21,8 +21,18 @@ class ChessBoard {
     this.vertices[value] = new Vertex(value);
   }
 
-  find(arr) {
-    return this.vertices[arr.toString()];
+  find(coord = [0, 0]) {
+    return this.vertices[coord.toString()];
+  }
+
+  shortestKnightPath(currPos = "0,0", destPos = "7,7", queue = [], visited = new Set()) {
+    if (!queue.length || currPos === destPos) return visited;
+
+    visited.add(currPos);
+    const readyVertex = queue.shift();
+
+    queue.push(...readyVertex.adjVertices);
+    return this.shortestKnightPath(currPos, destPos, queue, visited);
   }
 
   #initBoard(length) {
@@ -51,7 +61,7 @@ class ChessBoard {
   }
 }
 
-(function knightMoves(from = [0, 0], to = [7, 7]) {
+(function knightMoves(from = [0, 0], to = [3, 3]) {
   const chessBoard = new ChessBoard();
-  console.log(chessBoard.find([3, 3]));
-})()
+  console.log(chessBoard.shortestKnightPath(from.toString(), to.toString()));
+})();
