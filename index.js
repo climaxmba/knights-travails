@@ -25,7 +25,7 @@ class ChessBoard {
     return this.vertices[coord.toString()];
   }
 
-  shortestKnightPath(currPos = "0,0", destPos = "7,7", queue = [{ vertex: this.find(currPos), prev: this.find(currPos) }], visited = new Set()) {
+  mapKnightPath(currPos = "0,0", destPos = "7,7", queue = [{ vertex: this.find(currPos), prev: this.find(currPos) }], visited = new Set()) {
     visited.add(currPos);
     if (!queue.length) return;
 
@@ -36,7 +36,7 @@ class ChessBoard {
       queue.push({ vertex: readyElem.vertex.adjVertices[i], prev: readyElem.vertex });
     }
 
-    const next = this.shortestKnightPath(readyElem.vertex.value, destPos, queue, visited);
+    const next = this.mapKnightPath(readyElem.vertex.value, destPos, queue, visited);
 
     if (next[0].prev === readyElem.vertex) return [readyElem].concat(...next);
     return next;
@@ -70,5 +70,5 @@ class ChessBoard {
 
 (function knightMoves(from = [3, 3], to = [0, 5]) {
   const chessBoard = new ChessBoard();
-  console.log(chessBoard.shortestKnightPath(from.toString(), to.toString()));
+  console.log(chessBoard.mapKnightPath(from.toString(), to.toString()));
 })();
