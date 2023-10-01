@@ -21,7 +21,7 @@ class ChessBoard {
     this.vertices[value] = new Vertex(value);
   }
 
-  find(coord = [0, 0]) {
+  getVertex(coord = [0, 0]) {
     return this.vertices[coord.toString()];
   }
 
@@ -35,7 +35,7 @@ class ChessBoard {
   #mapKnightPath(
     currPos = "0,0",
     destPos = "7,7",
-    queue = [{ vertex: this.find(currPos), prev: this.find(currPos) }],
+    queue = [{ vertex: this.getVertex(currPos), prev: this.getVertex(currPos) }],
     visited = new Set()
   ) {
     visited.add(currPos);
@@ -43,7 +43,7 @@ class ChessBoard {
 
     const readyElem = queue.shift();
     if (currPos === destPos)
-      return [{ vertex: this.find(currPos), prev: readyElem.prev }];
+      return [{ vertex: this.getVertex(currPos), prev: readyElem.prev }];
 
     for (let i = 0; i < readyElem.vertex.adjVertices.length; i++) {
       queue.push({
