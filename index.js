@@ -25,18 +25,39 @@ class ChessBoard {
     return this.vertices[coord.toString()];
   }
 
-  mapKnightPath(currPos = "0,0", destPos = "7,7", queue = [{ vertex: this.find(currPos), prev: this.find(currPos) }], visited = new Set()) {
+  shortestKnightPath(from, to) {
+    return this.#mapKnightPath(from, to).map((elem) =>
+      // Convert the array of strings to an array of array of integers
+      elem.vertex.value.split(",").map((val) => parseInt(val))
+    );
+  }
+
+  #mapKnightPath(
+    currPos = "0,0",
+    destPos = "7,7",
+    queue = [{ vertex: this.find(currPos), prev: this.find(currPos) }],
+    visited = new Set()
+  ) {
     visited.add(currPos);
     if (!queue.length) return;
 
     const readyElem = queue.shift();
-    if (currPos === destPos) return [{ vertex: this.find(currPos), prev: readyElem.prev }];
+    if (currPos === destPos)
+      return [{ vertex: this.find(currPos), prev: readyElem.prev }];
 
     for (let i = 0; i < readyElem.vertex.adjVertices.length; i++) {
-      queue.push({ vertex: readyElem.vertex.adjVertices[i], prev: readyElem.vertex });
+      queue.push({
+        vertex: readyElem.vertex.adjVertices[i],
+        prev: readyElem.vertex,
+      });
     }
 
-    const next = this.mapKnightPath(readyElem.vertex.value, destPos, queue, visited);
+    const next = this.#mapKnightPath(
+      readyElem.vertex.value,
+      destPos,
+      queue,
+      visited
+    );
 
     if (next[0].prev === readyElem.vertex) return [readyElem].concat(...next);
     return next;
@@ -70,5 +91,5 @@ class ChessBoard {
 
 (function knightMoves(from = [3, 3], to = [0, 5]) {
   const chessBoard = new ChessBoard();
-  console.log(chessBoard.mapKnightPath(from.toString(), to.toString()));
+  console.log(chessBoard.shortestKnightPath(from.toString(), to.toString()));
 })();
