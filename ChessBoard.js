@@ -1,41 +1,41 @@
-class Vertex {
-  constructor(value) {
-    this.value = value;
-    this.adjVertices = [];
+class Square {
+  constructor(coord) {
+    this.coord = coord;
+    this.adjSquares = [];
   }
 
-  addAdjVertex(...vertices) {
-    vertices.forEach((vertex) => {
-      if (vertex) this.adjVertices.push(vertex);
+  addAdjSquares(...squares) {
+    squares.forEach((square) => {
+      if (square) this.adjSquares.push(square);
     });
   }
 }
 
 class ChessBoard {
   constructor(length = 8) {
-    this.vertices = {};
+    this.squares = {};
     this.#initBoard(length);
   }
 
-  addVertex(value) {
-    this.vertices[value] = new Vertex(value);
+  addSquare(coord) {
+    this.squares[coord] = new Square(coord);
   }
 
-  getVertex(coord = [0, 0]) {
-    return this.vertices[coord.toString()];
+  getSquare(coord = [0, 0]) {
+    return this.squares[coord.toString()];
   }
 
   shortestKnightPath(from, to) {
     return this.#mapKnightPath(from, to).map((elem) =>
       // Convert the array of strings to an array of array of integers
-      elem.vertex.value.split(",").map((val) => parseInt(val))
+      elem.square.coord.split(",").map((val) => parseInt(val))
     );
   }
 
   #mapKnightPath(
     searchPos = "0,0",
     destPos = "7,7",
-    queue = [{ vertex: this.getVertex(searchPos), prev: this.getVertex(searchPos) }],
+    queue = [{ square: this.getSquare(searchPos), prev: this.getSquare(searchPos) }],
     visited = new Set()
   ) {
     visited.add(searchPos);
@@ -43,27 +43,27 @@ class ChessBoard {
 
     // Get the next square from the queue
     const readyElem = queue.shift();
-    if (readyElem.vertex.value === destPos)
-      return [{ vertex: readyElem.vertex, prev: readyElem.prev }];
+    if (readyElem.square.coord === destPos)
+      return [{ square: readyElem.square, prev: readyElem.prev }];
 
     // Enqueue the adjacent visitable squares
-    for (let i = 0; i < readyElem.vertex.adjVertices.length; i++) {
-      if (!visited.has(readyElem.vertex.adjVertices[i].value))
+    for (let i = 0; i < readyElem.square.adjSquares.length; i++) {
+      if (!visited.has(readyElem.square.adjSquares[i].coord))
         queue.push({
-          vertex: readyElem.vertex.adjVertices[i],
-          prev: readyElem.vertex,
+          square: readyElem.square.adjSquares[i],
+          prev: readyElem.square,
         });
     }
 
     const next = this.#mapKnightPath(
-      readyElem.vertex.value,
+      readyElem.square.coord,
       destPos,
       queue,
       visited
     );
 
     // Concatenate the output, if the next square was visited from this square
-    if (next[0].prev === readyElem.vertex) return [readyElem].concat(...next);
+    if (next[0].prev === readyElem.square) return [readyElem].concat(...next);
     return next;
   }
 
@@ -71,22 +71,22 @@ class ChessBoard {
     // Add verticies
     for (let i = 0; i < length; i++) {
       for (let j = 0; j < length; j++) {
-        this.addVertex(`${i},${j}`);
+        this.addSquare(`${i},${j}`);
       }
     }
 
     // Add edges
     for (let i = 0; i < length; i++) {
       for (let j = 0; j < length; j++) {
-        this.vertices[`${i},${j}`].addAdjVertex(
-          this.vertices[`${i + 2},${j + 1}`],
-          this.vertices[`${i + 2},${j - 1}`],
-          this.vertices[`${i - 2},${j + 1}`],
-          this.vertices[`${i - 2},${j - 1}`],
-          this.vertices[`${i + 1},${j + 2}`],
-          this.vertices[`${i + 1},${j - 2}`],
-          this.vertices[`${i - 1},${j + 2}`],
-          this.vertices[`${i - 1},${j - 2}`]
+        this.squares[`${i},${j}`].addAdjSquares(
+          this.squares[`${i + 2},${j + 1}`],
+          this.squares[`${i + 2},${j - 1}`],
+          this.squares[`${i - 2},${j + 1}`],
+          this.squares[`${i - 2},${j - 1}`],
+          this.squares[`${i + 1},${j + 2}`],
+          this.squares[`${i + 1},${j - 2}`],
+          this.squares[`${i - 1},${j + 2}`],
+          this.squares[`${i - 1},${j - 2}`]
         );
       }
     }
