@@ -33,23 +33,26 @@ class ChessBoard {
   }
 
   #mapKnightPath(
-    currPos = "0,0",
+    searchPos = "0,0",
     destPos = "7,7",
-    queue = [{ vertex: this.getVertex(currPos), prev: this.getVertex(currPos) }],
+    queue = [{ vertex: this.getVertex(searchPos), prev: this.getVertex(searchPos) }],
     visited = new Set()
   ) {
-    visited.add(currPos);
+    visited.add(searchPos);
     if (!queue.length) return;
 
+    // Get the next square from the queue
     const readyElem = queue.shift();
-    if (currPos === destPos)
-      return [{ vertex: this.getVertex(currPos), prev: readyElem.prev }];
+    if (readyElem.vertex.value === destPos)
+      return [{ vertex: readyElem.vertex, prev: readyElem.prev }];
 
+    // Enqueue the adjacent visitable squares
     for (let i = 0; i < readyElem.vertex.adjVertices.length; i++) {
-      queue.push({
-        vertex: readyElem.vertex.adjVertices[i],
-        prev: readyElem.vertex,
-      });
+      if (!visited.has(readyElem.vertex.adjVertices[i].value))
+        queue.push({
+          vertex: readyElem.vertex.adjVertices[i],
+          prev: readyElem.vertex,
+        });
     }
 
     const next = this.#mapKnightPath(
@@ -59,6 +62,7 @@ class ChessBoard {
       visited
     );
 
+    // Concatenate the output, if the next square was visited from this square
     if (next[0].prev === readyElem.vertex) return [readyElem].concat(...next);
     return next;
   }
