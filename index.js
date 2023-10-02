@@ -9,12 +9,17 @@ function knightMoves(from = [3, 3], to = [0, 5]) {
   console.log(
     `You made it in ${
       path.length === 1 ? path.length + " move" : path.length + " moves"
-    }!  Here's your path:`
+    }! Here's your path:`
   );
   path.forEach((coord) => console.log(coord));
 }
 
 // Tests
+console.log("Running knightMoves([0, 0], [1, 2])...");
 knightMoves([0, 0], [1, 2]);
+
+console.log("\nRunning knightMoves([0, 0], [3, 3])...");
 knightMoves([0, 0], [3, 3]);
+
+console.log("\nRunning knightMoves([3, 3], [0, 0])...");
 knightMoves([3, 3], [0, 0]);
